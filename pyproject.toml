@@ -1,0 +1,12 @@
+[project]
+name = "auon-optimizer-mlx"
+version = "0.1.0"
+description = "AuON and Hybrid-AuON optimizers, in MLX"
+requires-python = ">=3.10"
+dependencies = ["mlx>=0.22", "numpy"]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
