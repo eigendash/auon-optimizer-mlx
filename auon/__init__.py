@@ -7,6 +7,16 @@ and :mod:`auon.model` / :mod:`auon.data` / :mod:`auon.train` the experiment
 harness.
 """
 
+from .optim import (
+    TEMPERATURE_SCALED,
+    VANILLA,
+    AuON,
+    HybridAuON,
+    Muon,
+    build_optimizer,
+    is_hidden_matrix,
+    split_optimizer,
+)
 from .normalizers import (
     NS_CLASSIC,
     NS_QUINTIC,
@@ -20,15 +30,23 @@ from .normalizers import (
 )
 
 __all__ = [
+    "AuON",
+    "HybridAuON",
+    "Muon",
     "NS_CLASSIC",
     "NS_QUINTIC",
     "NS_SIMPLE",
+    "TEMPERATURE_SCALED",
+    "VANILLA",
+    "build_optimizer",
     "cosh_rms",
     "cosh_rms_update",
+    "is_hidden_matrix",
     "muon_scale",
     "newton_schulz",
     "normalized_momentum",
     "spectral_norm",
+    "split_optimizer",
 ]
 
 __version__ = "0.1.0"
