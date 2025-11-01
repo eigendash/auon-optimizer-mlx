@@ -7,6 +7,7 @@ and :mod:`auon.model` / :mod:`auon.data` / :mod:`auon.train` the experiment
 harness.
 """
 
+from .model import TinyLM, cross_entropy
 from .optim import (
     TEMPERATURE_SCALED,
     VANILLA,
@@ -37,10 +38,12 @@ __all__ = [
     "NS_QUINTIC",
     "NS_SIMPLE",
     "TEMPERATURE_SCALED",
+    "TinyLM",
     "VANILLA",
     "build_optimizer",
     "cosh_rms",
     "cosh_rms_update",
+    "cross_entropy",
     "is_hidden_matrix",
     "muon_scale",
     "newton_schulz",
