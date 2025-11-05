@@ -7,6 +7,7 @@ and :mod:`auon.model` / :mod:`auon.data` / :mod:`auon.train` the experiment
 harness.
 """
 
+from .data import Batch, InductionTask, TinyCorpus, next_token_accuracy
 from .model import TinyLM, cross_entropy
 from .optim import (
     TEMPERATURE_SCALED,
@@ -18,6 +19,7 @@ from .optim import (
     is_hidden_matrix,
     split_optimizer,
 )
+from .train import TrainConfig, evaluate, make_model, train_arm
 from .normalizers import (
     NS_CLASSIC,
     NS_QUINTIC,
@@ -32,13 +34,17 @@ from .normalizers import (
 
 __all__ = [
     "AuON",
+    "Batch",
     "HybridAuON",
+    "InductionTask",
     "Muon",
     "NS_CLASSIC",
     "NS_QUINTIC",
     "NS_SIMPLE",
     "TEMPERATURE_SCALED",
+    "TinyCorpus",
     "TinyLM",
+    "TrainConfig",
     "VANILLA",
     "build_optimizer",
     "cosh_rms",
@@ -46,9 +52,13 @@ __all__ = [
     "cross_entropy",
     "is_hidden_matrix",
     "muon_scale",
+    "make_model",
     "newton_schulz",
     "normalized_momentum",
+    "next_token_accuracy",
     "spectral_norm",
+    "train_arm",
+    "evaluate",
     "split_optimizer",
 ]
 
