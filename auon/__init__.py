@@ -9,6 +9,8 @@ harness.
 
 from .data import Batch, InductionTask, TinyCorpus, next_token_accuracy
 from .model import TinyLM, cross_entropy
+from .scaling import analytic_macs, optimizer_factory, scaling_sweep, time_optimizer_step
+from .train import TrainConfig, evaluate, make_model, train_arm
 from .optim import (
     TEMPERATURE_SCALED,
     VANILLA,
@@ -19,7 +21,6 @@ from .optim import (
     is_hidden_matrix,
     split_optimizer,
 )
-from .train import TrainConfig, evaluate, make_model, train_arm
 from .normalizers import (
     NS_CLASSIC,
     NS_QUINTIC,
@@ -46,6 +47,7 @@ __all__ = [
     "TinyLM",
     "TrainConfig",
     "VANILLA",
+    "analytic_macs",
     "build_optimizer",
     "cosh_rms",
     "cosh_rms_update",
@@ -53,10 +55,13 @@ __all__ = [
     "is_hidden_matrix",
     "muon_scale",
     "make_model",
+    "optimizer_factory",
     "newton_schulz",
     "normalized_momentum",
     "next_token_accuracy",
+    "scaling_sweep",
     "spectral_norm",
+    "time_optimizer_step",
     "train_arm",
     "evaluate",
     "split_optimizer",
