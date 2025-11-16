@@ -1,0 +1,131 @@
+AuON vs orthogonal momentum baselines on a toy induction task
+  mlx device      Device(cpu, 0)
+  task            induction/copy, vocab 34, repeat 12, sequence 26, 12 scored positions per sequence
+  model           2 layers, d_model 96, 4 heads, d_ff 256, 182112 parameters
+  budget          400 steps x batch 32, 3 seeds [0, 1, 2], eval on 256 fixed sequences
+  arms            adam, sgd_momentum, muon, auon, auon_temp, hybrid_auon
+  learning rate   tuned per arm (see the sweep below); Adam on embeddings, the LM head and 1-D parameters for every non-Adam arm, lr 0.001
+  AuON config     rho 1.0, vanilla {'temperature_alpha': 0.0, 'brake_exponent': 0.5}, temperature-scaled {'temperature_alpha': 0.48, 'brake_exponent': 1.75}
+  Hybrid-AuON     temperature-scaled with 5 Newton-Schulz iterations on 2-D only
+
+[tune] 6 arms x 3 learning rates, seed 0, 400 steps, chosen on the same budget as the final runs
+  adam          lr 0.0003   loss   0.0030  acc 1.0000  peak_logit      14.66
+  adam          lr 0.001    loss   0.0006  acc 1.0000  peak_logit      34.26
+  adam          lr 0.003    loss   0.0002  acc 1.0000  peak_logit     202.66
+  -> adam          tuned learning rate 0.003
+  sgd_momentum  lr 0.003    loss   0.0001  acc 1.0000  peak_logit      15.58
+  sgd_momentum  lr 0.01     loss   0.0000  acc 1.0000  peak_logit      96.20
+  sgd_momentum  lr 0.03     loss   3.4609  acc 0.0319  peak_logit      16.22
+  -> sgd_momentum  tuned learning rate 0.01
+  muon          lr 0.002    loss   0.0000  acc 1.0000  peak_logit      37.25
+  muon          lr 0.005    loss   0.0000  acc 1.0000  peak_logit     168.93
+  muon          lr 0.02     loss   0.0088  acc 0.9964  peak_logit    1491.70
+  -> muon          tuned learning rate 0.005
+  auon          lr 0.005    loss   0.0000  acc 1.0000  peak_logit      22.79
+  auon          lr 0.02     loss   0.0950  acc 0.9964  peak_logit      52.47
+  auon          lr 0.05     loss   1.3747  acc 0.5443  peak_logit     135.68
+  -> auon          tuned learning rate 0.005
+  auon_temp     lr 0.02     loss   0.0004  acc 1.0000  peak_logit      46.63
+  auon_temp     lr 0.05     loss   0.0698  acc 0.9811  peak_logit      70.45
+  auon_temp     lr 0.2      loss   3.5183  acc 0.0378  peak_logit     116.02
+  -> auon_temp     tuned learning rate 0.02
+  hybrid_auon   lr 0.005    loss   0.0000  acc 1.0000  peak_logit      14.56
+  hybrid_auon   lr 0.02     loss   0.0002  acc 1.0000  peak_logit      48.44
+  hybrid_auon   lr 0.05     loss   0.0003  acc 1.0000  peak_logit      65.82
+  -> hybrid_auon   tuned learning rate 0.005
+
+[main] 3 seeds x 6 arms x 400 steps, identical data order and initialisation per seed, eval every 50 steps
+  seed 0 adam          lr 0.003    loss   0.0002  acc 1.0000  acc@100 1.0000  peak_logit     202.66    12.32 ms/step (opt 1.20)
+  seed 0 sgd_momentum  lr 0.01     loss   0.0000  acc 1.0000  acc@100 0.9997  peak_logit      96.20    11.87 ms/step (opt 0.92)
+  seed 0 muon          lr 0.005    loss   0.0000  acc 1.0000  acc@100 1.0000  peak_logit     168.93    14.97 ms/step (opt 3.52)
+  seed 0 auon          lr 0.005    loss   0.0000  acc 1.0000  acc@100 1.0000  peak_logit      22.79    17.64 ms/step (opt 2.59)
+  seed 0 auon_temp     lr 0.02     loss   0.0004  acc 1.0000  acc@100 0.0332  peak_logit      46.63    18.22 ms/step (opt 2.91)
+  seed 0 hybrid_auon   lr 0.005    loss   0.0000  acc 1.0000  acc@100 1.0000  peak_logit      14.56    20.60 ms/step (opt 5.80)
+  seed 1 adam          lr 0.003    loss   0.0002  acc 1.0000  acc@100 0.9945  peak_logit     293.16    18.87 ms/step (opt 1.94)
+  seed 1 sgd_momentum  lr 0.01     loss   0.0000  acc 1.0000  acc@100 0.9997  peak_logit      45.19    17.66 ms/step (opt 1.41)
+  seed 1 muon          lr 0.005    loss   0.0000  acc 1.0000  acc@100 1.0000  peak_logit     156.99    24.06 ms/step (opt 6.02)
+  seed 1 auon          lr 0.005    loss   0.0000  acc 1.0000  acc@100 1.0000  peak_logit      28.03    24.47 ms/step (opt 3.74)
+  seed 1 auon_temp     lr 0.02     loss   0.0024  acc 0.9997  acc@100 0.0342  peak_logit      33.77    22.78 ms/step (opt 3.90)
+  seed 1 hybrid_auon   lr 0.005    loss   0.0000  acc 1.0000  acc@100 1.0000  peak_logit      13.79    25.22 ms/step (opt 7.38)
+  seed 2 adam          lr 0.003    loss   0.0001  acc 1.0000  acc@100 0.9990  peak_logit     249.72    22.45 ms/step (opt 2.34)
+  seed 2 sgd_momentum  lr 0.01     loss   0.0000  acc 1.0000  acc@100 1.0000  peak_logit      36.81    21.16 ms/step (opt 1.69)
+  seed 2 muon          lr 0.005    loss   0.0000  acc 1.0000  acc@100 1.0000  peak_logit     115.19    24.12 ms/step (opt 5.92)
+  seed 2 auon          lr 0.005    loss   0.0000  acc 1.0000  acc@100 1.0000  peak_logit      21.83    27.71 ms/step (opt 4.64)
+  seed 2 auon_temp     lr 0.02     loss   0.0017  acc 0.9997  acc@100 0.0332  peak_logit      39.75    24.10 ms/step (opt 4.21)
+  seed 2 hybrid_auon   lr 0.005    loss   0.0000  acc 1.0000  acc@100 1.0000  peak_logit      13.72    25.94 ms/step (opt 7.74)
+
+[scaling] one optimizer step on a single square matrix, sizes [128, 256, 512, 1024, 2048, 4096]
+  adam             n=  128      0.161 ms/step
+  adam             n=  256      0.219 ms/step
+  adam             n=  512      0.597 ms/step
+  adam             n= 1024      2.131 ms/step
+  adam             n= 2048      8.635 ms/step
+  adam             n= 4096     34.534 ms/step
+  sgd_momentum     n=  128      0.113 ms/step
+  sgd_momentum     n=  256      0.118 ms/step
+  sgd_momentum     n=  512      0.319 ms/step
+  sgd_momentum     n= 1024      0.927 ms/step
+  sgd_momentum     n= 2048      3.781 ms/step
+  sgd_momentum     n= 4096     13.875 ms/step
+  auon             n=  128      0.224 ms/step
+  auon             n=  256      0.598 ms/step
+  auon             n=  512      2.086 ms/step
+  auon             n= 1024      7.381 ms/step
+  auon             n= 2048     28.813 ms/step
+  auon             n= 4096     99.887 ms/step
+  auon_temp        n=  128      0.231 ms/step
+  auon_temp        n=  256      0.474 ms/step
+  auon_temp        n=  512      1.562 ms/step
+  auon_temp        n= 1024      5.941 ms/step
+  auon_temp        n= 2048     24.210 ms/step
+  auon_temp        n= 4096    110.249 ms/step
+  hybrid_auon_ns1  n=  128      0.453 ms/step
+  hybrid_auon_ns1  n=  256      1.049 ms/step
+  hybrid_auon_ns1  n=  512      3.860 ms/step
+  hybrid_auon_ns1  n= 1024     16.993 ms/step
+  hybrid_auon_ns1  n= 2048     85.932 ms/step
+  hybrid_auon_ns1  n= 4096    496.609 ms/step
+  muon_ns1         n=  128      0.283 ms/step
+  muon_ns1         n=  256      0.690 ms/step
+  muon_ns1         n=  512      3.152 ms/step
+  muon_ns1         n= 1024     13.003 ms/step
+  muon_ns1         n= 2048     63.040 ms/step
+  muon_ns1         n= 4096    468.893 ms/step
+  muon             n=  128      1.084 ms/step
+  muon             n=  256      2.511 ms/step
+  muon             n=  512     11.802 ms/step
+  muon             n= 1024     64.514 ms/step
+  muon             n= 2048    345.755 ms/step
+  muon             n= 4096   2053.453 ms/step
+  hybrid_auon      n=  128      1.054 ms/step
+  hybrid_auon      n=  256      2.548 ms/step
+  hybrid_auon      n=  512     12.069 ms/step
+  hybrid_auon      n= 1024     68.234 ms/step
+  hybrid_auon      n= 2048    322.384 ms/step
+  hybrid_auon      n= 4096   1875.289 ms/step
+  adam              slope(all) 1.61  slope(last 3 sizes) 2.01  macs@1024 4.19e+06
+  sgd_momentum      slope(all) 1.46  slope(last 3 sizes) 1.95  macs@1024 4.19e+06
+  auon              slope(all) 1.79  slope(last 3 sizes) 1.88  macs@1024 5.24e+06
+  auon_temp         slope(all) 1.81  slope(last 3 sizes) 2.11  macs@1024 5.24e+06
+  hybrid_auon_ns1   slope(all) 2.05  slope(last 3 sizes) 2.43  macs@1024 3.23e+09
+  muon_ns1          slope(all) 2.14  slope(last 3 sizes) 2.59  macs@1024 3.23e+09
+  muon              slope(all) 2.23  slope(last 3 sizes) 2.50  macs@1024 1.61e+10
+  hybrid_auon       slope(all) 2.21  slope(last 3 sizes) 2.39  macs@1024 1.61e+10
+  sweep took 83.5 s
+
+[brake] ||update||_2 for a dense 64x64 gradient with one entry spiked by s
+  spike         0 | auon_temp: r 5.369 ||U||2 0.04592 | auon_vanilla: r 1 ||U||2 0.2465 | hybrid_auon: r 5.328 ||U||2 0.032 | muon: r n/a ||U||2 1.187
+  spike         1 | auon_temp: r 5.365 ||U||2 0.04596 | auon_vanilla: r 1 ||U||2 0.2466 | hybrid_auon: r 5.328 ||U||2 0.03202 | muon: r n/a ||U||2 1.188
+  spike        10 | auon_temp: r 1.767e+06 ||U||2 1.473e-07 | auon_vanilla: r 1 ||U||2 0.2602 | hybrid_auon: r 7.373 ||U||2 0.02309 | muon: r n/a ||U||2 1.182
+  spike       100 | auon_temp: r inf ||U||2 0 | auon_vanilla: r 1 ||U||2 0.8497 | hybrid_auon: r 2.11e+04 ||U||2 7.872e-06 | muon: r n/a ||U||2 1.202
+  spike     1e+06 | auon_temp: r inf ||U||2 0 | auon_vanilla: r 1 ||U||2 0.9998 | hybrid_auon: r inf ||U||2 0 | muon: r n/a ||U||2 0.6964
+
+[stress] 10.0x the tuned learning rate for 200 steps, seed 0
+  adam          lr 0.03     loss     3.4791  acc 0.0299  peak_logit     99421.70  upd_rms 6.837e-03  finite True
+  sgd_momentum  lr 0.1      loss     3.5305  acc 0.0254  peak_logit      1591.07  upd_rms 8.443e-03  finite True
+  muon          lr 0.05     loss     0.0955  acc 0.9743  peak_logit      5019.52  upd_rms 8.111e-03  finite True
+  auon          lr 0.05     loss     3.4775  acc 0.0358  peak_logit        59.83  upd_rms 2.811e-03  finite True
+  auon_temp     lr 0.2      loss     3.6033  acc 0.0312  peak_logit       111.20  upd_rms 1.723e-02  finite True
+  hybrid_auon   lr 0.05     loss     3.4466  acc 0.0498  peak_logit        15.03  upd_rms 3.157e-03  finite True
+
+total wall clock 452.6 s
