@@ -5841,21 +5841,25 @@
     "arms": {
      "auon_temp": {
       "brake_statistic": 5.368774890899658,
+      "brake_statistic_infinite": false,
       "finite": true,
       "update_spectral_norm": 0.045921314507722855
      },
      "auon_vanilla": {
       "brake_statistic": 1.0001220703125,
+      "brake_statistic_infinite": false,
       "finite": true,
       "update_spectral_norm": 0.24651111662387848
      },
      "hybrid_auon": {
       "brake_statistic": 5.327860355377197,
+      "brake_statistic_infinite": false,
       "finite": true,
       "update_spectral_norm": 0.03200298175215721
      },
      "muon": {
       "brake_statistic": null,
+      "brake_statistic_infinite": false,
       "finite": true,
       "update_spectral_norm": 1.187253713607788
      }
@@ -5866,21 +5870,25 @@
     "arms": {
      "auon_temp": {
       "brake_statistic": 5.365471363067627,
+      "brake_statistic_infinite": false,
       "finite": true,
       "update_spectral_norm": 0.04595862701535225
      },
      "auon_vanilla": {
       "brake_statistic": 1.0001219511032104,
+      "brake_statistic_infinite": false,
       "finite": true,
       "update_spectral_norm": 0.24655963480472565
      },
      "hybrid_auon": {
       "brake_statistic": 5.3277082443237305,
+      "brake_statistic_infinite": false,
       "finite": true,
       "update_spectral_norm": 0.03202058747410774
      },
      "muon": {
       "brake_statistic": null,
+      "brake_statistic_infinite": false,
       "finite": true,
       "update_spectral_norm": 1.1875838041305542
      }
@@ -5891,21 +5899,25 @@
     "arms": {
      "auon_temp": {
       "brake_statistic": 1766836.625,
+      "brake_statistic_infinite": false,
       "finite": true,
       "update_spectral_norm": 1.4729006636571285e-07
      },
      "auon_vanilla": {
       "brake_statistic": 1.0001219511032104,
+      "brake_statistic_infinite": false,
       "finite": true,
       "update_spectral_norm": 0.2602057456970215
      },
      "hybrid_auon": {
       "brake_statistic": 7.373046875,
+      "brake_statistic_infinite": false,
       "finite": true,
       "update_spectral_norm": 0.023089075461030006
      },
      "muon": {
       "brake_statistic": null,
+      "brake_statistic_infinite": false,
       "finite": true,
       "update_spectral_norm": 1.1815928220748901
      }
@@ -5915,22 +5927,26 @@
    {
     "arms": {
      "auon_temp": {
-      "brake_statistic": Infinity,
+      "brake_statistic": null,
+      "brake_statistic_infinite": true,
       "finite": true,
       "update_spectral_norm": 0.0
      },
      "auon_vanilla": {
       "brake_statistic": 1.000144600868225,
+      "brake_statistic_infinite": false,
       "finite": true,
       "update_spectral_norm": 0.8497382998466492
      },
      "hybrid_auon": {
       "brake_statistic": 21097.119140625,
+      "brake_statistic_infinite": false,
       "finite": true,
       "update_spectral_norm": 7.872179594414774e-06
      },
      "muon": {
       "brake_statistic": null,
+      "brake_statistic_infinite": false,
       "finite": true,
       "update_spectral_norm": 1.2020537853240967
      }
@@ -5940,22 +5956,26 @@
    {
     "arms": {
      "auon_temp": {
-      "brake_statistic": Infinity,
+      "brake_statistic": null,
+      "brake_statistic_infinite": true,
       "finite": true,
       "update_spectral_norm": 0.0
      },
      "auon_vanilla": {
       "brake_statistic": 1.0001685619354248,
+      "brake_statistic_infinite": false,
       "finite": true,
       "update_spectral_norm": 0.9998314380645752
      },
      "hybrid_auon": {
-      "brake_statistic": Infinity,
+      "brake_statistic": null,
+      "brake_statistic_infinite": true,
       "finite": true,
       "update_spectral_norm": 0.0
      },
      "muon": {
       "brake_statistic": null,
+      "brake_statistic_infinite": false,
       "finite": true,
       "update_spectral_norm": 0.6964364051818848
      }

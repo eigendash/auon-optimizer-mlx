@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import statistics
 import sys
 import time
@@ -299,6 +300,7 @@ def part_spike(args, log: Log) -> dict:
     for spike in args.spike_sizes:
         gradient = base.at[0, 0].add(spike)
         row = {"spike": spike, "arms": {}}
+        raw = {}
         for name, factory in arms.items():
             optimizer = factory()
             statistic = None
@@ -309,8 +311,18 @@ def part_spike(args, log: Log) -> dict:
             update = optimizer.apply_gradients({"w": gradient}, {"w": weight})["w"]
             mx.eval(update)
             delta = weight - update
+            raw[name] = statistic
+            # cosh overflows to inf for a large enough spike, which sends the
+            # update to exactly zero; keep the JSON strictly valid (no Infinity)
             row["arms"][name] = {
-                "brake_statistic": statistic,
+                "brake_statistic": (
+                    statistic
+                    if statistic is not None and math.isfinite(statistic)
+                    else None
+                ),
+                "brake_statistic_infinite": bool(
+                    statistic is not None and not math.isfinite(statistic)
+                ),
                 "update_spectral_norm": float(spectral_norm(delta, iters=300)),
                 "finite": bool(mx.all(mx.isfinite(delta))),
             }
@@ -319,11 +331,7 @@ def part_spike(args, log: Log) -> dict:
             "  spike {:>9g} | ".format(spike)
             + " | ".join(
                 f"{name}: "
-                + (
-                    f"r {row['arms'][name]['brake_statistic']:.4g} "
-                    if row["arms"][name]["brake_statistic"] is not None
-                    else "r n/a "
-                )
+                + (f"r {raw[name]:.4g} " if raw[name] is not None else "r n/a ")
                 + f"||U||2 {row['arms'][name]['update_spectral_norm']:.4g}"
                 for name in arms
             )
