@@ -68,7 +68,7 @@ from `gamma = 1`. It needs the temperature scaling: section 3.5.1 writes
 `gamma = sqrt(N)` and sections 3.3/4.2 write `gamma = N ** 0.48`, which is the
 same thing to within the exponent. We measure exactly this in
 `results/experiment.json` (`spike`): with `gamma = N ** 0.48` a single spike
-takes the update norm from 4.6e-2 to 1.5e-7 and then to 0, while with `gamma = 1`
+takes the update norm from 4.592e-2 to 1.473e-7 and then to 0, while with `gamma = 1`
 the same spike takes it from 0.247 to 0.9998 — i.e. vanilla AuON drifts *towards*
 the trust-region boundary instead of braking.
 
@@ -235,11 +235,11 @@ in any training batch during the 400 steps; chance accuracy is 0.03125.
 
 | spike | `auon_temp` `r` | `auon_temp` `\|\|U\|\|_2` | `auon` vanilla `\|\|U\|\|_2` | `hybrid_auon` `\|\|U\|\|_2` | `muon` `\|\|U\|\|_2` |
 |---:|---:|---:|---:|---:|---:|
-| 0 | 5.369 | 0.0459 | 0.2465 | 0.0320 | 1.187 |
-| 1 | 5.365 | 0.0460 | 0.2466 | 0.0320 | 1.188 |
-| 10 | 1.767e6 | 1.47e-7 | 0.2602 | 0.0231 | 1.182 |
-| 100 | inf | 0 | 0.8497 | 7.87e-6 | 1.202 |
-| 1e6 | inf | 0 | 0.9998 | 0 | 0.696 |
+| 0 | 5.369 | 0.04592 | 0.2465 | 0.032 | 1.187 |
+| 1 | 5.365 | 0.04596 | 0.2466 | 0.03202 | 1.188 |
+| 10 | 1.767e+06 | 1.473e-07 | 0.2602 | 0.02309 | 1.182 |
+| 100 | inf | 0 | 0.8497 | 7.872e-06 | 1.202 |
+| 1e6 | inf | 0 | 0.9998 | 0 | 0.6964 |
 
 ### Table 4 — deliberately large learning rate (10x the tuned value, 200 steps, seed 0)
 
