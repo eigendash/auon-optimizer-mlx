@@ -132,7 +132,7 @@ Newton-Schulz).
 
 ## Checks
 
-`pytest` runs 90 tests. The ones that carry the weight:
+`pytest` runs 93 tests. The ones that carry the weight:
 
 * **Trust region.** `test_spectral_norm_of_the_update_never_exceeds_rho` runs 24
   random matrices (8 shapes x 3 magnitudes) for each of 2 radii and 3
@@ -187,6 +187,12 @@ Newton-Schulz).
   compares, `test_attention_logits_are_causal` checks that changing the last
   token cannot move earlier logits, and `test_cross_entropy_only_counts_masked_positions`
   checks the masked loss against hand-computed values.
+* **The README itself.** `tests/test_results.py` checks that every numeric cell
+  of the four tables below is a rounding of a number in
+  `results/experiment.json`, that every headline metric in the JSON is quoted in
+  the tables, and that the paper's own benchmark numbers appear only inside the
+  "nothing here reproduces" bullet. It is the honesty checklist of the repo's
+  house style, mechanised.
 * **Task and loop contracts.** The induction layout, the mask covering exactly
   the second copy, seeded determinism, `lr_at`'s warm-up/decay values, the
   history contract (lengths, `peak == max`), a real end-to-end loss decrease on
